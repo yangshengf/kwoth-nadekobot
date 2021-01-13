@@ -51,6 +51,19 @@ namespace NadekoBot.Core.Services.Database.Repositories.Impl
                 .ToList();
         }
 
+        public int GetUserVoiceRanking(ulong userId, ulong guildId)
+        {
+            return _set
+                .AsQueryable()
+                .Where(x => x.GuildId == guildId && (x.VoiceXp >
+                    (_set.AsQueryable()
+                        .Where(y => y.UserId == userId && y.GuildId == guildId)
+                        .Select(y => y.VoiceXp)
+                        .FirstOrDefault())
+                ))
+                .Count() + 1;
+        }
+
         public int GetUserGuildRanking(ulong userId, ulong guildId)
         {
             //            @"SELECT COUNT(*) + 1

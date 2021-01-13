@@ -696,7 +696,7 @@ namespace NadekoBot.Modules.Xp.Services
             {
                 du = uow.DiscordUsers.GetOrCreate(user);
                 totalXp = du.TotalXp;
-                globalRank = uow.DiscordUsers.GetUserGlobalRank(user.Id);
+                globalRank = uow.Xp.GetUserVoiceRanking(user.Id, user.GuildId);
                 guildRank = uow.Xp.GetUserGuildRanking(user.Id, user.GuildId);
                 stats = uow.Xp.GetOrCreateUser(user.GuildId, user.Id);
                 await uow.SaveChangesAsync();
@@ -900,7 +900,7 @@ namespace NadekoBot.Modules.Xp.Services
                         img.Mutate(x =>
                         {
                             x.DrawText(
-                                stats.Global.Level.ToString(),
+                                stats.GuildVoice.Level.ToString(),
                                 _fonts.NotoSans.CreateFont(_template.User.GlobalLevel.FontSize, FontStyle.Bold),
                                 _template.User.GlobalLevel.Color,
                                 new PointF(_template.User.GlobalLevel.Pos.X, _template.User.GlobalLevel.Pos.Y)

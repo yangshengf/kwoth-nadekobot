@@ -56,6 +56,23 @@ VALUES ({userId}, {username}, {discrim}, {avatarId});
                 .Count() + 1;
         }
 
+        public int GetUserVoipceRank(ulong guildId, ulong id)
+        {
+            //            @"SELECT COUNT(*) + 1
+            //FROM DiscordUser
+            //WHERE TotalXp > COALESCE((SELECT TotalXp
+            //    FROM DiscordUser
+            //    WHERE UserId = @p1
+            //    LIMIT 1), 0);"
+            return _set.AsQueryable()
+                .Where(x => x.TotalXp > (_set
+                    .AsQueryable()
+                    .Where(y => y.UserId == id)
+                    .Select(y => y.TotalXp)
+                    .FirstOrDefault()))
+                .Count() + 1;
+        }
+
         public DiscordUser[] GetUsersXpLeaderboardFor(int page)
         {
             return _set.AsQueryable()
