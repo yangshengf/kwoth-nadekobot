@@ -220,7 +220,7 @@ namespace NadekoBot.Modules.Administration.Services
             {
                 try { await usr.ModifyAsync(x => x.Mute = true).ConfigureAwait(false); } catch { }
 
-                await usr.ModifyAsync(x => x.RoleIds = new ulong[0]);
+                await usr.ModifyAsync(x => x.RoleIds = usr.GetRoles().Where(x => x.IsManaged).Select(x => x.Id).ToArray());
                 var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
                 if (!usr.RoleIds.Contains(muteRole.Id))
                     await usr.AddRoleAsync(muteRole).ConfigureAwait(false);
