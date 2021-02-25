@@ -193,7 +193,7 @@ namespace NadekoBot.Modules.Xp.Services
                             }
                             if (oldGuildVoiceLevelData.Level < newGuildVoiceLevelData.Level)
                             {
-                                usr.LastLevelUp = DateTime.UtcNow;
+                                du.LastLevelUp = DateTime.UtcNow;
                                 //send level up notification
                                 if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
                                     toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
